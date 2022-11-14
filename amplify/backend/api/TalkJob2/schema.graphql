@@ -1,0 +1,44 @@
+type Task @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  code: String
+  processStep: Int
+  description: String
+  projectID: ID! @index(name: "byProject")
+}
+
+type Project @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  nam: String!
+  Owner: User @hasOne
+  Members: [User] @hasMany(indexName: "byProject", fields: ["id"])
+  Tasks: [Task] @hasMany(indexName: "byProject", fields: ["id"])
+}
+
+type ChatRoom @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  newMessages: Int
+  Members: [User] @manyToMany(relationName: "ChatRoomUser")
+  LastMessage: Message @hasOne
+  Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  Owner: User @hasOne
+}
+
+type Message @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  content: String!
+  userID: ID! @index(name: "byUser")
+  chatroomID: ID! @index(name: "byChatRoom")
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  imageUri: String
+  status: String
+  email: String
+  phone: String
+  Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
+  ChatRooms: [ChatRoom] @manyToMany(relationName: "ChatRoomUser")
+  projectID: ID @index(name: "byProject")
+}

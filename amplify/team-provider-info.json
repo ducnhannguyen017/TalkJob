@@ -1,0 +1,30 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-talkjob2-staging-155008-authRole",
+      "UnauthRoleArn": "arn:aws:iam::452199224008:role/amplify-talkjob2-staging-155008-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::452199224008:role/amplify-talkjob2-staging-155008-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-talkjob2-staging-155008-deployment",
+      "UnauthRoleName": "amplify-talkjob2-staging-155008-unauthRole",
+      "StackName": "amplify-talkjob2-staging-155008",
+      "StackId": "arn:aws:cloudformation:us-east-2:452199224008:stack/amplify-talkjob2-staging-155008/0433bd10-6434-11ed-9cdd-0acc77905dc4",
+      "AmplifyAppId": "d2tjvwk3a5j4zx",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-talkjob2-staging-155008-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "TalkJob2": {}
+      },
+      "function": {
+        "TalkJob2PostConfirmation": {
+          "deploymentBucketName": "amplify-talkjob2-staging-155008-deployment",
+          "s3Key": "amplify-builds/TalkJob2PostConfirmation-75516c72337a522b5a37-build.zip"
+        }
+      },
+      "api": {
+        "TalkJob2": {}
+      }
+    }
+  }
+}
