@@ -43,6 +43,7 @@
   NotFound: undefined;
   Home: undefined;
   ChatRoom: undefined;
+  UsersScreen: undefined;
 };
 
 export type BottomTabParamList = {

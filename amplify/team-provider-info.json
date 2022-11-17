@@ -24,6 +24,9 @@
       },
       "api": {
         "TalkJob2": {}
+      },
+      "storage": {
+        "talkjobstorge": {}
       }
     }
   }

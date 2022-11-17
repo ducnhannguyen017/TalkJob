@@ -1,0 +1,13 @@
+{
+  "resourceName": "talkjobstorge",
+  "policyUUID": "d3641c3f",
+  "bucketName": "talkjobbucket",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
