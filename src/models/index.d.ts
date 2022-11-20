@@ -2,6 +2,12 @@ import { ModelInit, MutableModel } from "@aws-amplify/datastore";
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
+export enum MessageStatus {
+  SENT = "SENT",
+  DELIVERED = "DELIVERED",
+  READ = "READ"
+}
+
 type TaskMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
@@ -92,6 +98,7 @@ type EagerUser = {
   readonly Messages?: (Message | null)[] | null;
   readonly ChatRooms?: (ChatRoomUser | null)[] | null;
   readonly projectID?: string | null;
+  readonly lastOnlineAt?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -106,6 +113,7 @@ type LazyUser = {
   readonly Messages: AsyncCollection<Message>;
   readonly ChatRooms: AsyncCollection<ChatRoomUser>;
   readonly projectID?: string | null;
+  readonly lastOnlineAt?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -123,6 +131,8 @@ type EagerMessage = {
   readonly chatroomID: string;
   readonly image?: string | null;
   readonly audio?: string | null;
+  readonly status?: MessageStatus | keyof typeof MessageStatus | null;
+  readonly replyToMessageID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -134,6 +144,8 @@ type LazyMessage = {
   readonly chatroomID: string;
   readonly image?: string | null;
   readonly audio?: string | null;
+  readonly status?: MessageStatus | keyof typeof MessageStatus | null;
+  readonly replyToMessageID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
