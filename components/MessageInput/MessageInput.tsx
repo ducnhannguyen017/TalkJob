@@ -35,23 +35,23 @@ const MessageInput = ({ chatRoom, messageReplyTo, removeMessageReplyTo }) => {
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [soundURI, setSoundURI] = useState<string | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== "web") {
-        const libraryResponse =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        const photoResponse = await ImagePicker.requestCameraPermissionsAsync();
-        await Audio.requestPermissionsAsync();
+  // useEffect(() => {
+  //   (async () => {
+  //     if (Platform.OS !== "web") {
+  //       const libraryResponse =
+  //         await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //       const photoResponse = await ImagePicker.requestCameraPermissionsAsync();
+  //       await Audio.requestPermissionsAsync();
 
-        if (
-          libraryResponse.status !== "granted" ||
-          photoResponse.status !== "granted"
-        ) {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    })();
-  }, []);
+  //       if (
+  //         libraryResponse.status !== "granted" ||
+  //         photoResponse.status !== "granted"
+  //       ) {
+  //         alert("Sorry, we need camera roll permissions to make this work!");
+  //       }
+  //     }
+  //   })();
+  // }, []);
 
   const sendMessage = async () => {
     // send message

@@ -13,12 +13,18 @@ export default function UserItem({ user }) {
     // TODO if there is already a chat room between these 2 users
     // then redirect to the existing chat room
     // otherwise, create a new chatroom with these users.
+    const authUser = await Auth.currentAuthenticatedUser();
 
+    const existRoom = (await DataStore.query(ChatRoomUser)).filter(chatRoom => chatRoom.user.id == authUser.attributes.sub || chatRoom.user.id == user.id);
+    console.log("existRoom", existRoom)
+    if(existRoom.length == 2){
+      navigation.navigate('ChatRoom', { id: existRoom[0].chatRoom.id });
+      return ;
+    }
     // Create a chat room
     const newChatRoom = await DataStore.save(new ChatRoom({newMessages: 0}));
     
     // connect authenticated user with the chat room
-    const authUser = await Auth.currentAuthenticatedUser();
     const dbUser = await DataStore.query(User, authUser.attributes.sub);
     await DataStore.save(new ChatRoomUser({
       user: dbUser,

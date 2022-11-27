@@ -12,7 +12,12 @@ import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import moment from "moment";
 
-Amplify.configure(config);
+Amplify.configure({
+  ...config,
+  Analytics: { 
+    disabled: true
+  }
+});
 
 function App() {
   const isLoadingComplete = useCachedResources();
