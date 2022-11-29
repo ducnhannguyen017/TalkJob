@@ -30,6 +30,15 @@ import HomeScreen from "../screens/HomeScreen";
 import UsersScreen from "../screens/UsersScreen";
 
 import ChatRoomHeader from "./ChatRoomHeader";
+import {
+  Octicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  FontAwesome5,
+} from '@expo/vector-icons';
+import MainTabNavigator from "./MainTabNavigator";
+import Colors from "../constants/Colors";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 export default function Navigation({
   colorScheme,
@@ -52,7 +61,36 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator  screenOptions={{
+      headerStyle: {
+        backgroundColor: Colors.light.tint,
+        shadowOpacity: 0,
+        elevation: 0,
+      },
+      headerTintColor: Colors.light.background,
+      headerTitleAlign: 'left',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      }
+    }}>
+      <Stack.Screen
+        name="Root"
+        component={MainTabNavigator}
+        options={{
+          title: "TalkJob",
+          headerRight: () => (
+            <View style={{
+              flexDirection: 'row',
+              width: 60,
+              justifyContent: 'space-between',
+              marginRight: 10,
+            }}>
+              <Octicons name="search" size={22} color={'white'} />
+              <MaterialCommunityIcons name="dots-vertical" size={22} color={'white'} />
+            </View>
+          )
+        }}
+      />
       <Stack.Screen
         name="Home"
         component={HomeScreen}

@@ -49,36 +49,39 @@ const ChatRoomHeader = ({ id, children }:any) => {
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        width: width - 25,
-        marginLeft: 25,
-        padding: 10,
+        // width: width - 100,
+        // marginLeft: 25,
+        // padding: 10,
         alignItems: "center",
       }}
     >
-      <Image
-        source={{
-          uri: user?.imageUri,
-        }}
-        style={{ width: 30, height: 30, borderRadius: 30 }}
-      />
-
-      <View style={{ flex: 1, marginLeft: 10 }}>
-        <Text style={{ fontWeight: "bold" }}>{user?.name}</Text>
-        <Text>{getLastOnlineText()}</Text>
+      <View style={{flexDirection: "row",}}>
+        <Image
+          source={{
+            uri: user?.imageUri,
+          }}
+          style={{ width: 30, height: 30, borderRadius: 30 }}
+        />
+        <View style={{ flex: 1, marginLeft: 10 }}>
+          <Text style={{ fontWeight: "bold" }}>{user?.name}</Text>
+          <Text>{getLastOnlineText()}</Text>
+        </View>
       </View>
 
-      <Feather
-        name="camera"
-        size={24}
-        color="black"
-        style={{ marginHorizontal: 10 }}
-      />
-      <Feather
-        name="edit-2"
-        size={24}
-        color="black"
-        style={{ marginHorizontal: 10 }}
-      />
+      {/* <View style={{flexDirection: "row",}}>
+        <Feather
+          name="camera"
+          size={24}
+          color="black"
+          style={{ marginHorizontal: 10 }}
+        />
+        <Feather
+          name="edit-2"
+          size={24}
+          color="black"
+          style={{ marginHorizontal: 10 }}
+        />
+      </View> */}
     </View>
   );
 };

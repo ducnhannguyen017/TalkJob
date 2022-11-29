@@ -68,7 +68,7 @@ const MessageReply = (props) => {
     >
       <View style={styles.row}>
         {message.image && (
-          <View style={{ marginBottom: message.content ? 10 : 0 }}>
+          <View style={{ marginBottom: 10 }}>
             <S3Image
               imgKey={message.image}
               style={{ width: width * 0.65, aspectRatio: 4 / 3 }}
@@ -100,8 +100,8 @@ const MessageReply = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    margin: 10,
+    // padding: 10,
+    // margin: 10,
     borderRadius: 10,
     maxWidth: "75%",
   },

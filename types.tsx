@@ -46,6 +46,13 @@
   UsersScreen: undefined;
 };
 
+export type MainTabParamList = {
+  Camera: undefined;
+  Chats: undefined;
+  Status: undefined;
+  Calls: undefined;
+};
+
 export type BottomTabParamList = {
   TabOne: undefined;
   TabTwo: undefined;
