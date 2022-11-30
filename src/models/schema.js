@@ -291,6 +291,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "publicKey": {
+                    "name": "publicKey",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -398,6 +405,13 @@ export const schema = {
                 },
                 "replyToMessageID": {
                     "name": "replyToMessageID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "forUserId": {
+                    "name": "forUserId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -535,6 +549,20 @@ export const schema = {
                         "associatedWith": "id",
                         "targetName": "chatRoomOwnerId"
                     }
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "imageUri": {
+                    "name": "imageUri",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -685,5 +713,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.1",
-    "version": "1c454abe755ecb6ee3672ec3a245d3c6"
+    "version": "b4e82aa3e5f1fe7026ada1ac77e96808"
 };
