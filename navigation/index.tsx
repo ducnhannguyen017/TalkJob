@@ -3,23 +3,15 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
- import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-  useNavigation,
+ import { Feather } from "@expo/vector-icons";
+import {
+  DarkTheme, DefaultTheme, NavigationContainer, useNavigation
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import {
-  ColorSchemeName,
-  View,
-  Text,
-  Image,
-  useWindowDimensions,
-  Pressable,
+  ColorSchemeName, Image, Pressable, Text, useWindowDimensions, View
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
@@ -29,16 +21,12 @@ import ChatRoomScreen from "../screens/ChatRoomScreen";
 import HomeScreen from "../screens/HomeScreen";
 import UsersScreen from "../screens/UsersScreen";
 
-import ChatRoomHeader from "./ChatRoomHeader";
 import {
-  Octicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-  FontAwesome5,
+  MaterialCommunityIcons, Octicons
 } from '@expo/vector-icons';
-import MainTabNavigator from "./MainTabNavigator";
 import Colors from "../constants/Colors";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ChatRoomHeader from "./ChatRoomHeader";
+import MainTabNavigator from "./MainTabNavigator";
 
 export default function Navigation({
   colorScheme,

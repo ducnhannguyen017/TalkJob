@@ -1,43 +1,90 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, Image, View, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import styles from './styles';
 import { Auth, DataStore } from 'aws-amplify';
 import { ChatRoom, User, ChatRoomUser } from '../../src/models';
+import { AntDesign } from '@expo/vector-icons';
 
-export default function UserItem({ user }) {
+export default function UserItem({ user, setSelectedUsers, selectedUser, newGroupMode, showUsers }) {
   const navigation = useNavigation<any>();
+  let roomMap={};
+
+  var groupBy = function(xs) {
+    return xs.reduce(function(rv, x) {
+      (rv[x.chatRoom['id']] = rv[x.chatRoom['id']] || []).push(x);
+      return rv;
+    }, {});
+  };
 
   const onPress = async () => {
-
-    // TODO if there is already a chat room between these 2 users
-    // then redirect to the existing chat room
-    // otherwise, create a new chatroom with these users.
-    const authUser = await Auth.currentAuthenticatedUser();
-
-    const existRoom = (await DataStore.query(ChatRoomUser)).filter(chatRoom => chatRoom.user.id == authUser.attributes.sub || chatRoom.user.id == user.id);
-    console.log("existRoom", existRoom)
-    if(existRoom.length == 2){
-      navigation.navigate('ChatRoom', { id: existRoom[0].chatRoom.id });
-      return ;
-    }
-    // Create a chat room
-    const newChatRoom = await DataStore.save(new ChatRoom({newMessages: 0}));
+    if(newGroupMode){
+      if(filterContact()){
+        return;
+      }
+      setSelectedUsers([...selectedUser, user])
+    }else{
+      const authUser = await Auth.currentAuthenticatedUser();
+      
+      //check exist chatroom
+      const lstChatRoomUser:any = groupBy((await DataStore.query(ChatRoomUser)).filter(chatRoom => chatRoom.user.id == authUser.attributes.sub || chatRoom.user.id == user.id));
+      await Promise.all(
+        Object.keys(lstChatRoomUser).map((chatRoomId) => findUsersInChatRoom(chatRoomId))
+      );
+      const createNewRoom:any = Object.values(roomMap).find((room:any)=>{
+        if(room.length == 2 ) return true;
+        else return false
+      });
+      if(createNewRoom){
+        navigation.navigate('ChatRoom', { id: createNewRoom[0].chatRoom.id });
+        return;
+      }else{
+        // Create a chat room
+        const newChatRoom = await DataStore.save(new ChatRoom({newMessages: 0}));
+        
+        // connect authenticated user with the chat room
+        const dbUser = await DataStore.query(User, authUser.attributes.sub);
+        await DataStore.save(new ChatRoomUser({
+          user: dbUser,
+          chatRoom: newChatRoom
+        }))
     
-    // connect authenticated user with the chat room
-    const dbUser = await DataStore.query(User, authUser.attributes.sub);
-    await DataStore.save(new ChatRoomUser({
-      user: dbUser,
-      chatRoom: newChatRoom
-    }))
+        // connect clicked user with the chat room
+        await DataStore.save(new ChatRoomUser({
+          user,
+          chatRoom: newChatRoom
+        }));
+    
+        navigation.navigate('ChatRoom', { id: newChatRoom.id });
+      }
+    }
+    const authUser = await Auth.currentAuthenticatedUser();
+    const lstChatRoomUser:any = groupBy((await DataStore.query(ChatRoomUser)).filter(chatRoom => chatRoom.user.id == authUser.attributes.sub || chatRoom.user.id == user.id));
+    await Promise.all(
+      Object.keys(lstChatRoomUser).map((chatRoomId) => findUsersInChatRoom(chatRoomId))
+    );
+    const createNewRoom = Object.values(roomMap).find((room:any)=>{
+      if(room.length == 2 ) return true;
+      else return false
+    });
+    if(createNewRoom){
 
-    // connect clicked user with the chat room
-    await DataStore.save(new ChatRoomUser({
-      user,
-      chatRoom: newChatRoom
-    }));
+    }else{
 
-    navigation.navigate('ChatRoom', { id: newChatRoom.id });
+    }
+  }
+
+  const findUsersInChatRoom= async (chatRoomId)=>{
+    const chatRoom = (await DataStore.query(ChatRoomUser)).filter(chatRoomUser => chatRoomUser.chatRoom.id == chatRoomId);
+    roomMap[chatRoomId] = chatRoom;
+  }
+
+  const filterContact=()=>{
+    if(selectedUser && selectedUser.find(selectedUser=>selectedUser.id == user.id)){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   return (
@@ -47,6 +94,7 @@ export default function UserItem({ user }) {
       <View style={styles.rightContainer}>
         <View style={styles.row}>
           <Text style={styles.name}>{user.name}</Text>
+          {filterContact() && (<AntDesign name="checkcircleo" size={24} color="black" />)}
         </View>
       </View>
     </Pressable>
