@@ -6,13 +6,26 @@ import { ChatRoomUser, User, Message } from "../../src/models";
 import styles from "./styles";
 import Auth from "@aws-amplify/auth";
 import moment from "moment";
+import { ChatRoom } from "../../src/models";
 
 export default function ChatRoomItem({ chatRoom }) {
   // const [users, setUsers] = useState<User[]>([]); // all users in this chatroom
   const [user, setUser] = useState<User | null>(null); // the display user
   const [lastMessage, setLastMessage] = useState<Message | undefined>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation<any>();
+  
+  useEffect(() => {
+    const subscription = DataStore.observe(ChatRoom, chatRoom.id).subscribe((msg) => {
+      console.log("msg", msg)
+      if (msg.model === ChatRoom && msg.opType === "UPDATE") {
+        setLastMessage(msg.element.LastMessage);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -26,6 +39,7 @@ export default function ChatRoomItem({ chatRoom }) {
       setUser(
         fetchedUsers.find((user) => user.id !== authUser.attributes.sub) || null
       );
+      setIsLoading(false);
     };
     fetchUsers();
   }, []);
@@ -43,7 +57,7 @@ export default function ChatRoomItem({ chatRoom }) {
     navigation.navigate("ChatRoom", { id: chatRoom.id });
   };
 
-  if (!user) {
+  if (isLoading) {
     return <ActivityIndicator />;
   }
 

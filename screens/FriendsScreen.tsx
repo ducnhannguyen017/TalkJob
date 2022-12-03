@@ -18,14 +18,21 @@ import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
-export default function UsersScreen() {
+export default function FriendsScreen() {
   const [users, setUsers] = useState<User[]>([]);
   const [showUsers, setShowUsers] = useState<User[]>([]);
   const [selectMemberMode, setSelectMemberMode] = useState(false);
   const [inputSearch, setInputSearch] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const [groupName, setGroupName] = useState(null)
   const navigation = useNavigation<any>();
 
+  useEffect(() => {
+    setSelectedUsers([]);
+    setGroupName("");
+    setSelectMemberMode(false);
+  },[])
+  
   useEffect(() => {
     // query users
     try {
@@ -48,6 +55,7 @@ export default function UsersScreen() {
 
   const handleCancelNewGroup = () => {
     setSelectedUsers([]);
+    setGroupName("");
     setSelectMemberMode(!selectMemberMode);
   };
 
@@ -81,7 +89,7 @@ export default function UsersScreen() {
       Admin: dbUser,
     };
     if (selectedUsers.length > 1) {
-      newChatRoomData.name = "New group 2";
+      newChatRoomData.name = groupName;
       newChatRoomData.imageUri =
         "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/group.jpeg";
     }
@@ -121,6 +129,12 @@ export default function UsersScreen() {
                   />
                 </View>
               </Pressable>
+              <TextInput
+                style={[styles.input, {width:"50%"}]}
+                onChangeText={setGroupName}
+                value={groupName}
+                placeholder="Group Name"
+              />
               <Pressable onPress={() => handleCreateNewGroup()}>
                 <View style={styles.image}>
                   <Feather
@@ -164,8 +178,8 @@ export default function UsersScreen() {
             <FlatList
             horizontal
               data={selectedUsers}
-              renderItem={({ item }) => (
-                <View key={item.id} style={{ marginLeft: 5, marginRight: 5 }}>
+              renderItem={({ item, index }) => (
+                <View key={item.id+index} style={{ marginLeft: 5, marginRight: 5 }}>
                   <Image source={{ uri: item.imageUri }} style={styles.image} />
                   <Pressable
                     onPress={() => deleteUsers(item.id)}

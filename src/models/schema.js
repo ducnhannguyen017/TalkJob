@@ -291,13 +291,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "publicKey": {
-                    "name": "publicKey",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -713,5 +706,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.1",
-    "version": "b4e82aa3e5f1fe7026ada1ac77e96808"
+    "version": "570c8095f3f97ca8bdf80d3f595631e2"
 };

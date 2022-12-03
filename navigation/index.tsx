@@ -3,36 +3,57 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
- import { Feather } from "@expo/vector-icons";
-import {
-  DarkTheme, DefaultTheme, NavigationContainer, useNavigation
+ import {
+  DarkTheme, DefaultTheme, NavigationContainer
 } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import {
-  ColorSchemeName, Image, Pressable, Text, useWindowDimensions, View
+  ColorSchemeName, Pressable, useWindowDimensions, View
 } from "react-native";
 
-import NotFoundScreen from "../screens/NotFoundScreen";
-import { RootStackParamList } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 
-import ChatRoomScreen from "../screens/ChatRoomScreen";
-import HomeScreen from "../screens/HomeScreen";
-import UsersScreen from "../screens/UsersScreen";
 
 import {
   MaterialCommunityIcons, Octicons
 } from '@expo/vector-icons';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import DrawerContent from "../components/DrawerContent";
 import Colors from "../constants/Colors";
-import ChatRoomHeader from "./ChatRoomHeader";
 import MainTabNavigator from "./MainTabNavigator";
+import { createStackNavigator } from "@react-navigation/stack";
+import ChatsScreen from "../screens/ChatsScreen";
+import FriendsScreen from "../screens/FriendsScreen";
+import ChatRoomHeader from "./ChatRoomHeader";
+import ChatRoomScreen from "../screens/ChatRoomScreen";
+
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator<any>();
+
+const defaultOptions = ({ navigation }) => ({
+  title: "TalkJob",
+  headerRight: () => (
+    <View style={{
+      flexDirection: 'row',
+      width: 60,
+      justifyContent: 'space-between',
+      marginRight: 10,
+    }}>
+      <Octicons name="search" size={22} color={'white'} />
+      <Pressable onPress={()=> navigation.openDrawer()}>
+        <MaterialCommunityIcons name="dots-vertical" size={22} color={'white'} />
+      </Pressable>
+    </View>
+  ),
+  headerLeft:()=>(<></>)
+});
 
 export default function Navigation({
   colorScheme,
 }: {
   colorScheme: ColorSchemeName;
 }) {
+  // const navigation = useNavigation();
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
@@ -42,10 +63,6 @@ export default function Navigation({
     </NavigationContainer>
   );
 }
-
-// A root stack navigator is often used for displaying modals on top of all other content
-// Read more here: https://reactnavigation.org/docs/modal
-const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
@@ -62,27 +79,11 @@ function RootNavigator() {
       }
     }}>
       <Stack.Screen
-        name="Root"
-        component={MainTabNavigator}
-        options={{
-          title: "TalkJob",
-          headerRight: () => (
-            <View style={{
-              flexDirection: 'row',
-              width: 60,
-              justifyContent: 'space-between',
-              marginRight: 10,
-            }}>
-              <Octicons name="search" size={22} color={'white'} />
-              <MaterialCommunityIcons name="dots-vertical" size={22} color={'white'} />
-            </View>
-          )
-        }}
-      />
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{ headerTitle: HomeHeader }}
+        name="Drawer"
+        component={DrawerNavigator}
+        options= {()=>({
+          headerShown: false
+        })}
       />
       <Stack.Screen
         name="ChatRoom"
@@ -92,66 +93,28 @@ function RootNavigator() {
           headerBackTitleVisible: false,
         })}
       />
-      <Stack.Screen
-        name="UsersScreen"
-        component={UsersScreen}
-        options={{
-          title: "Users",
-        }}
-      />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
     </Stack.Navigator>
   );
 }
 
-const HomeHeader = (props) => {
-  const { width } = useWindowDimensions();
-  const navigation = useNavigation<any>();
-
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width,
-        padding: 10,
-        alignItems: "center",
-      }}
-    >
-      <Image
-        source={{
-          uri: "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.jpg",
-        }}
-        style={{ width: 30, height: 30, borderRadius: 30 }}
-      />
-      <Text
-        style={{
-          flex: 1,
-          textAlign: "center",
-          marginLeft: 50,
-          fontWeight: "bold",
+function DrawerNavigator(){
+  return(
+    <Drawer.Navigator
+        drawerContent={props => <DrawerContent {...props} />} 
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: Colors.light.tint,
+            shadowOpacity: 0,
+            elevation: 0,
+          },
+          headerTintColor: Colors.light.background,
+          headerTitleAlign: 'left',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }
         }}
       >
-        Signal
-      </Text>
-      <Feather
-        name="camera"
-        size={24}
-        color="black"
-        style={{ marginHorizontal: 10 }}
-      />
-      <Pressable onPress={() => navigation.navigate("UsersScreen")}>
-        <Feather
-          name="edit-2"
-          size={24}
-          color="black"
-          style={{ marginHorizontal: 10 }}
-        />
-      </Pressable>
-    </View>
-  );
-};
+          <Drawer.Screen name="Main" component={MainTabNavigator} options={defaultOptions}/>
+      </Drawer.Navigator>
+  )
+}

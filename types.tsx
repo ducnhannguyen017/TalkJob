@@ -41,9 +41,14 @@
  export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
-  Home: undefined;
+  ChatsScreen: undefined;
   ChatRoom: undefined;
-  UsersScreen: undefined;
+  FriendsScreen: undefined;
+  TabOneScreen: undefined;
+  TabTwoScreen: undefined;
+  Chats: undefined;
+  Tasks: undefined;
+  Friends: undefined;
 };
 
 export type MainTabParamList = {

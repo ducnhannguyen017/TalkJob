@@ -18,6 +18,7 @@ export default function UserItem({ user, setSelectedUsers, selectedUser, newGrou
   };
 
   const onPress = async () => {
+    console.log("newGroupMode", newGroupMode)
     if(newGroupMode){
       if(filterContact()){
         return;
@@ -32,9 +33,10 @@ export default function UserItem({ user, setSelectedUsers, selectedUser, newGrou
         Object.keys(lstChatRoomUser).map((chatRoomId) => findUsersInChatRoom(chatRoomId))
       );
       const createNewRoom:any = Object.values(roomMap).find((room:any)=>{
-        if(room.length == 2 ) return true;
+        if(room.length == 2 && room.find(e=>e.user.id == user.id)) return true;
         else return false
       });
+      //
       if(createNewRoom){
         navigation.navigate('ChatRoom', { id: createNewRoom[0].chatRoom.id });
         return;

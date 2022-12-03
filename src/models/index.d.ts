@@ -99,7 +99,6 @@ type EagerUser = {
   readonly ChatRooms?: (ChatRoomUser | null)[] | null;
   readonly projectID?: string | null;
   readonly lastOnlineAt?: number | null;
-  readonly publicKey?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -115,7 +114,6 @@ type LazyUser = {
   readonly ChatRooms: AsyncCollection<ChatRoomUser>;
   readonly projectID?: string | null;
   readonly lastOnlineAt?: number | null;
-  readonly publicKey?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

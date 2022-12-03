@@ -9,11 +9,13 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { MainTabParamList, TabOneParamList, TabTwoParamList } from '../types';
-import UsersScreen from '../screens/UsersScreen';
-import HomeScreen from '../screens/HomeScreen';
+import FriendsScreen from '../screens/FriendsScreen';
+import ChatsScreen from '../screens/ChatsScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import { Pressable } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import TasksScreen from '../screens/TasksScreen';
+import ChatRoomScreen from '../screens/ChatRoomScreen';
 
 const BottomTab = createBottomTabNavigator<any>();
 
@@ -38,7 +40,7 @@ function MainTabNavigator() {
       }}>
       <BottomTab.Screen
         name="Chats"
-        component={HomeScreen}
+        component={ChatsScreen}
         options={({ navigation }: any) => ({
           tabBarIcon: ({color})=> <AntDesign name="wechat" size={24} color={color} />,
           headerShown: false,
@@ -49,7 +51,7 @@ function MainTabNavigator() {
       />
       <BottomTab.Screen
         name="Friends"
-        component={UsersScreen}
+        component={FriendsScreen}
         options={({navigation}:any)=>({
           tabBarIcon: ({ color }) => <FontAwesome5 name="user-friends" size={24} color={color} />,
           headerShown: false,
@@ -59,8 +61,8 @@ function MainTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="Jobs"
-        component={TabTwoScreen}
+        name="Tasks"
+        component={TasksScreen}
         options={({navigation}:any)=>({
           tabBarIcon: ({ color }) => <Ionicons name="code-working" size={24} color={color} />,
           headerShown: false,
@@ -88,7 +90,7 @@ function TabOneNavigator() {
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="TabOneScreen"
-        component={UsersScreen}
+        component={FriendsScreen}
         options={{ headerTitle: 'Tab One Title' }}
       />
     </TabOneStack.Navigator>

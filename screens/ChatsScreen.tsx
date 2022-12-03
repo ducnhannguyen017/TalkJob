@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
 import { Auth, DataStore } from 'aws-amplify';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import ChatRoomItem from '../components/ChatRoomItem';
 import { ChatRoom, ChatRoomUser } from '../src/models';
 
 
-export default function HomeScreen() {
+export default function ChatsScreen() {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
-
+  
   useEffect(() => {
-    const subscription = DataStore.observe(ChatRoomUser).subscribe((msg) => {
-      if (msg.model === ChatRoomUser && msg.opType === "UPDATE") {
-        setChatRooms((existChatRoom) => [msg.element, ...existChatRoom]);
+    const subscription = DataStore.observe(ChatRoom).subscribe((msg) => {
+      console.log("msg", msg)
+      if (msg.model === ChatRoom && msg.opType === "INSERT") {
+        setChatRooms((chatRoom) => [msg.element, ...chatRoom]);
       }
     });
 
@@ -36,10 +37,6 @@ export default function HomeScreen() {
     fetchChatRooms();
   }, []);
 
-  const logOut = () => {
-    Auth.signOut();
-  }
-
   return (
     <View style={styles.page}>
       {chatRooms && chatRooms.length > 0 && (
@@ -49,9 +46,6 @@ export default function HomeScreen() {
           showsVerticalScrollIndicator={false}
         />
       )}
-      {/* <Pressable onPress={logOut} style={{backgroundColor: 'red', height: 50, margin: 10, borderRadius: 50, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>Logout</Text>
-      </Pressable> */}
     </View>
   );
 }
