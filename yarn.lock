@@ -9289,9 +9289,9 @@ react-native-tab-view@^3.3.0:
   dependencies:
     use-latest-callback "^0.1.5"
 
-react-native-web@~0.18.9:
+react-native-web@^0.18.10:
   version "0.18.10"
-  resolved "https://registry.npmjs.org/react-native-web/-/react-native-web-0.18.10.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.18.10.tgz#fb4db047f4be7f9cf35f37ec8d52f7d1c450600f"
   integrity sha512-YV2gtZa1n7ulTGp+HcxH+KsAtaDPBI/dKd9oOQS31zyFHURjObLUVkKnGjkmlYAUReWfvmlU64GzyNwoZF9/tA==
   dependencies:
     "@babel/runtime" "^7.18.6"

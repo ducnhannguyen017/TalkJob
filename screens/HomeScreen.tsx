@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Text, Image, Pressable, View, StyleSheet, FlatList } from 'react-native';
 import { Auth, DataStore } from 'aws-amplify';
-import { ChatRoom, ChatRoomUser } from '../src/models';
+import { FlatList, StyleSheet, View } from 'react-native';
 import ChatRoomItem from '../components/ChatRoomItem';
+import { ChatRoom, ChatRoomUser } from '../src/models';
 
 
 export default function HomeScreen() {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
+
+  useEffect(() => {
+    const subscription = DataStore.observe(ChatRoomUser).subscribe((msg) => {
+      if (msg.model === ChatRoomUser && msg.opType === "UPDATE") {
+        setChatRooms((existChatRoom) => [msg.element, ...existChatRoom]);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchChatRooms = async () => {
